@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+**/__pycache__/
+.env
+*.pyc
+
+data/
+*.Zone.Identifier
+*.zip
+.claude/
+StarDash_Instructions_Projet_Claude.md

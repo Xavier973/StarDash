@@ -59,10 +59,10 @@ def load_kpis() -> dict:
     """KPIs globaux pour la vue générale."""
     df = load_fait_capteurs()
     total = len(df)
-    nb_pannes = df["machine_failure"].sum()
+    nb_pannes = df["machine_failure"].sum() if total > 0 else 0
     return {
         "total_cycles":   total,
         "nb_pannes":      int(nb_pannes),
-        "taux_panne":     round(nb_pannes / total * 100, 2),
-        "taux_dispo":     round((1 - nb_pannes / total) * 100, 2),
+        "taux_panne":     round(nb_pannes / total * 100, 2) if total > 0 else 0.0,
+        "taux_dispo":     round((1 - nb_pannes / total) * 100, 2) if total > 0 else 0.0,
     }

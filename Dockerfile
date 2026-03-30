@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY dashboard/ ./dashboard/
 COPY etl/       ./etl/
+COPY run_etl.py .
 COPY .env       .env
 
 ENV PYTHONUNBUFFERED=1

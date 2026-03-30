@@ -67,7 +67,7 @@ def _fig_jauge_usure(df) -> go.Figure:
     normal    = counts.get("normal", 0)
     attention = counts.get("attention", 0)
     critique  = counts.get("critique", 0)
-    pct_critique = round(critique / total * 100, 1)
+    pct_critique = round(critique / total * 100, 1) if total > 0 else 0.0
 
     fig = go.Figure(go.Indicator(
         mode="gauge+number+delta",

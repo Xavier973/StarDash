@@ -1,12 +1,13 @@
 # StarDash — Maintenance Prédictive Industrielle
 
 Pipeline data engineering de bout en bout sur données de capteurs industriels :
-ETL · Schéma en étoile PostgreSQL · Dashboard opérationnel Dash/Plotly · Docker
+ETL · Schéma en étoile PostgreSQL · Dashboard opérationnel Dash/Plotly · Docker · Power BI
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791)
 ![Dash](https://img.shields.io/badge/Dash-Plotly-informational)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)
+![PowerBI](https://img.shields.io/badge/Power%20BI-Report-F2C811?logo=powerbi&logoColor=black)
 ![Licence](https://img.shields.io/badge/Données-CC%20BY%204.0-green)
 
 ---
@@ -24,13 +25,13 @@ en Guyane et en Amérique du Sud.
 
 **AI4I 2020 Predictive Maintenance Dataset** — UCI Machine Learning Repository (ID 601)
 
-| Paramètre       | Valeur                                      |
-|-----------------|---------------------------------------------|
-| Source          | UCI ML Repository — Stephan Matzka, 2020    |
-| Licence         | CC BY 4.0                                   |
-| Volume          | 10 000 cycles machine, 14 colonnes          |
-| Capteurs        | Temp. air, Temp. process, Vitesse, Couple, Usure outil |
-| Cibles          | Machine failure + 5 types de panne (TWF, HDF, PWF, OSF, RNF) |
+| Paramètre | Valeur                                                       |
+| --------- | ------------------------------------------------------------ |
+| Source    | UCI ML Repository — Stephan Matzka, 2020                     |
+| Licence   | CC BY 4.0                                                    |
+| Volume    | 10 000 cycles machine, 14 colonnes                           |
+| Capteurs  | Temp. air, Temp. process, Vitesse, Couple, Usure outil       |
+| Cibles    | Machine failure + 5 types de panne (TWF, HDF, PWF, OSF, RNF) |
 
 > Citation : Matzka, S. (2020). *AI4I 2020 Predictive Maintenance Dataset*. UCI Machine Learning Repository. https://doi.org/10.24432/C5HS5C
 
@@ -52,6 +53,9 @@ StarDash/
 │   ├── data.py                 ← Couche d'accès PostgreSQL
 │   ├── layouts/                ← 4 sections du dashboard
 │   └── assets/style.css        ← Thème dark industriel
+├── powerbi/
+│   └── StarDash_rapport.pbix   ← Rapport Power BI téléchargeable
+├── assets/                     ← Screenshots dashboard & rapport
 ├── Dockerfile
 ├── docker-compose.yml
 └── run_etl.py                  ← Lancement pipeline complet
@@ -73,28 +77,54 @@ dim_temps   ──┘
 
 ### Colonnes calculées
 
-| Colonne            | Formule                          | Usage                      |
-|--------------------|----------------------------------|----------------------------|
-| `temp_delta`       | process_temp − air_temp          | Détection surchauffe       |
-| `puissance_estimee`| torque × rpm × (2π / 60)         | Surveillance surpuissance  |
-| `statut_usure`     | < 100 → normal · 100–200 → attention · > 200 → critique | Alertes maintenance |
+| Colonne             | Formule                                                 | Usage                     |
+| ------------------- | ------------------------------------------------------- | ------------------------- |
+| `temp_delta`        | process_temp − air_temp                                 | Détection surchauffe      |
+| `puissance_estimee` | torque × rpm × (2π / 60)                                | Surveillance surpuissance |
+| `statut_usure`      | < 100 → normal · 100–200 → attention · > 200 → critique | Alertes maintenance       |
 
 ---
 
-## Dashboard — 4 sections
+## Dashboard Dash — 4 sections
 
-| Section                  | Contenu                                                        |
-|--------------------------|----------------------------------------------------------------|
-| Vue générale             | KPIs globaux, répartition pannes par type, distribution qualité |
-| Surveillance capteurs    | Courbes température, distribution vitesse, heatmap risque      |
-| **Maintenance prédictive** | Disponibilité par segment, jauge usure, alertes, top 5 causes |
-| Performance process      | Puissance dans le temps, corrélation thermique, log événements |
+| Section                    | Contenu                                                         |
+| -------------------------- | --------------------------------------------------------------- |
+| Vue générale               | KPIs globaux, répartition pannes par type, distribution qualité |
+| Surveillance capteurs      | Courbes température, distribution vitesse, heatmap risque       |
+| **Maintenance prédictive** | Disponibilité par segment, jauge usure, alertes, top 5 causes   |
+| Performance process        | Puissance dans le temps, corrélation thermique, log événements  |
+
+🔗 **[Accéder au dashboard en ligne](https://stardash.data-service.fr/)**
+
+---
+
+## Rapport Power BI
+
+En complément du dashboard temps réel, un rapport Power BI a été développé
+sur le même dataset pour l'analyse décisionnelle approfondie.
+
+### Aperçu
+
+<!-- PAGE 1 -->
+
+![Vue générale Power BI](assets/powerbi_01_vue_generale.png)
+
+<!-- PAGE 2 -->
+
+![Analyse des pannes](assets/powerbi_02_pannes.png)
+
+### Télécharger le rapport
+
+📥 [StarDash_rapport.pbix](./powerbi/StarDash_rapport.pbix)
+
+> Nécessite [Power BI Desktop](https://powerbi.microsoft.com/fr-fr/desktop/) (gratuit) pour être ouvert.
 
 ---
 
 ## Lancement rapide
 
 ### Prérequis
+
 - Docker & Docker Compose
 - Fichier `.env` (voir `.env.example`)
 
@@ -102,7 +132,7 @@ dim_temps   ──┘
 
 ```bash
 # 1. Cloner le dépôt
-git clone https://github.com/<votre-repo>/stardash.git
+git clone https://github.com/Xavier973/stardash.git
 cd stardash
 
 # 2. Configurer les credentials
@@ -137,15 +167,16 @@ python dashboard/app.py
 
 ## Stack technique
 
-| Couche       | Technologie                      |
-|--------------|----------------------------------|
-| Données      | AI4I 2020 (UCI ML Repository)    |
-| ETL          | Python 3.10 · Pandas · ucimlrepo |
-| Stockage     | PostgreSQL 15                    |
-| Modélisation | Schéma en étoile SQL             |
-| Dashboard    | Dash 4 · Plotly 6                |
+| Couche       | Technologie                         |
+| ------------ | ----------------------------------- |
+| Données      | AI4I 2020 (UCI ML Repository)       |
+| ETL          | Python 3.10 · Pandas · ucimlrepo    |
+| Stockage     | PostgreSQL 15                       |
+| Modélisation | Schéma en étoile SQL                |
+| Dashboard    | Dash 4 · Plotly 6                   |
+| Reporting BI | Power BI Desktop                    |
 | Déploiement  | Docker · Docker Compose · VPS Linux |
-| Versioning   | Git · GitHub                     |
+| Versioning   | Git · GitHub                        |
 
 ---
 

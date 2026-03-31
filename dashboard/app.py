@@ -44,11 +44,24 @@ app.layout = html.Div(
             className="header",
             children=[
                 html.Div(className="header-left", children=[
-                    html.H1("StarDash", className="header-title"),
+                    html.Div(className="header-brand", children=[
+                        html.H1("StarDash", className="header-title"),
+                        html.Span(className="header-live", children=[
+                            html.Span(className="live-dot"),
+                            html.Span("Live", className="live-label"),
+                        ]),
+                    ]),
                     html.Span("Maintenance Prédictive Industrielle", className="header-subtitle"),
                 ]),
                 html.Div(className="header-right", children=[
-                    html.Span("AI4I 2020 — 10 000 cycles", className="header-badge"),
+                    html.Div(className="header-meta", children=[
+                        html.Span("Dataset", className="meta-label"),
+                        html.Span("AI4I 2020", className="meta-value"),
+                    ]),
+                    html.Div(className="header-meta", children=[
+                        html.Span("Cycles", className="meta-label"),
+                        html.Span("10 000", className="meta-value"),
+                    ]),
                 ]),
             ],
         ),
@@ -66,6 +79,53 @@ app.layout = html.Div(
 
         # --- Contenu dynamique ---
         html.Main(id="tab-content", className="tab-content"),
+
+        # --- Footer ---
+        html.Footer(className="footer", children=[
+            html.Div(className="footer-inner", children=[
+                html.Div(className="footer-left", children=[
+                    html.Span("StarDash - 2026", className="footer-brand"),
+                    html.Span("Maintenance Prédictive Industrielle — AI4I 2020", className="footer-desc"),
+                ]),
+                html.Div(className="footer-links", children=[
+                    html.A(
+                        href="https://github.com/Xavier973/StarDash",
+                        target="_blank", rel="noopener noreferrer",
+                        className="footer-link",
+                        children=[
+                            html.Span("⌥", className="footer-icon"),
+                            "GitHub",
+                        ],
+                    ),
+                    html.A(
+                        href="https://www.linkedin.com/in/xavier-cuniberti-528aa84b/",
+                        target="_blank", rel="noopener noreferrer",
+                        className="footer-link",
+                        children=[
+                            html.Span("in", className="footer-icon footer-icon--li"),
+                            "LinkedIn",
+                        ],
+                    ),
+                    html.A(
+                        href="mailto:x.cuniberti@gmail.com",
+                        className="footer-link",
+                        children=[
+                            html.Span("@", className="footer-icon"),
+                            "x.cuniberti@gmail.com",
+                        ],
+                    ),
+                    html.A(
+                        href="https://data-service.fr",
+                        target="_blank", rel="noopener noreferrer",
+                        className="footer-link",
+                        children=[
+                            html.Span("◈", className="footer-icon"),
+                            "data-service.fr",
+                        ],
+                    ),
+                ]),
+            ]),
+        ]),
 
     ],
 )

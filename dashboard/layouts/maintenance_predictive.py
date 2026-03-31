@@ -72,6 +72,7 @@ def _fig_jauge_usure(df) -> go.Figure:
     fig = go.Figure(go.Indicator(
         mode="gauge+number+delta",
         value=pct_critique,
+        domain=dict(x=[0, 1], y=[0.2, 1]),
         number=dict(suffix=" %", font=dict(color="#e2e8f0", size=36)),
         delta=dict(reference=5, increasing=dict(color="#fc8181"), decreasing=dict(color="#68d391")),
         gauge=dict(
@@ -95,11 +96,11 @@ def _fig_jauge_usure(df) -> go.Figure:
     fig.update_layout(
         **theme,
         annotations=[
-            dict(x=0.15, y=0.12, text=f"Normal<br><b>{normal:,}</b>",
+            dict(x=0.15, y=0.05, text=f"Normal<br><b>{normal:,}</b>",
                  showarrow=False, font=dict(color="#68d391", size=12), xref="paper", yref="paper"),
-            dict(x=0.5,  y=0.12, text=f"Attention<br><b>{attention:,}</b>",
+            dict(x=0.5,  y=0.05, text=f"Attention<br><b>{attention:,}</b>",
                  showarrow=False, font=dict(color="#f6ad55", size=12), xref="paper", yref="paper"),
-            dict(x=0.85, y=0.12, text=f"Critique<br><b>{critique:,}</b>",
+            dict(x=0.85, y=0.05, text=f"Critique<br><b>{critique:,}</b>",
                  showarrow=False, font=dict(color="#fc8181", size=12), xref="paper", yref="paper"),
         ],
     )
